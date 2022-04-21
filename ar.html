@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>ปัทมานนท์ฟาร์มจระเข้</title>
+    <meta charset="utf-8">
+    <meta name="description" content="&lt;model-viewer&gt; template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="text/css" href="./styles.css" rel="stylesheet"/>
+    <!-- OPTIONAL: The :focus-visible polyfill removes the focus ring for some input types -->
+    <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
+    <script src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="https://unpkg.com/intersection-observer/intersection-observer.js"></script>
+    <script src="https://unpkg.com/resize-observer-polyfill/dist/ResizeObserver.js"></script>
+    <script src="https://unpkg.com/fullscreen-polyfill/dist/fullscreen.polyfill.js"></script>
+
+  </head>
+  <body>
+      <header>
+        <div class="logo" title="Home">
+            <a href="index.html"><img src="images/logo.png" alt=""></a>
+        </div>
+
+    </header>
+
+      <model-viewer src="model/crocodile.glb" 
+      poster="model/crocodile.jpeg" 
+      shadow-intensity="1" 
+      ar-scale=' 10 %'
+      ar ar-modes="webxr scene-viewer quick-look" 
+      camera-controls alt="A 3D model carousel"
+      auto-rotate ar magic-leap
+    autoplay
+      >
+  
+
+        <div class="progress-bar hide" slot="progress-bar">
+        <div class="update-bar"></div>
+         </div>
+
+        <button slot="ar-button" id="ar-button">
+          แสดงผลด้านหน้าคุณ
+        </button>
+    
+      
+        <button id="ar-failure">
+          ไม่พบข้อมูล
+        </button>
+      
+        <div class="slider">
+          <div class="slides">
+            <button class="slide selected" onclick="switchSrc(this, 'crocodile')" style="background-image: url('model/crocodile.jpg');">
+      
+            </button><button class="slide" onclick="switchSrc(this, 'bird')" style="background-image: url('model/bird.jpg');">
+      
+            </button><button class="slide" onclick="switchSrc(this, 'guineapig')" style="background-image: url('model/guineapig.jpg');">
+            
+            </button><button class="slide" onclick="switchSrc(this, 'rabbit')" style="background-image: url('model/rabbit.jpg');">
+            </button><button class="slide" onclick="switchSrc(this, 'deer')" style="background-image: url('model/deer.jpg');">
+            
+          </button></div>
+        </div>
+      </model-viewer>
+      
+      <script type="module">
+        const modelViewer = document.querySelector("model-viewer");
+      
+        window.switchSrc = (element, name) => {
+          const base = "model/" + name;
+          modelViewer.src = base + '.glb';
+          modelViewer.poster = base + '.jpg';
+          const slides = document.querySelectorAll(".slide");
+          slides.forEach((element) => {element.classList.remove("selected");});
+          element.classList.add("selected");
+        };
+      
+        document.querySelector(".slider").addEventListener('beforexrselect', (ev) => {
+          // Keep slider interactions from affecting the XR scene.
+          ev.preventDefault();
+        });
+      </script>
+
+    <script src="script.js"></script>
+    <!-- Loads <model-viewer> for browsers: -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  </body>
+</html>
